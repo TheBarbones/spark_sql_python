@@ -20,11 +20,13 @@ Basic sql operations
 
 
 def loading_data(spark: SparkSession):
-    """Loading files:
+    """
     - CSV or TEXT
     - JSON
     - PARQUET
     - ORC
+    :param spark:
+    :return:
     """
     csv_df = spark.read.option("header", "true").csv("course/data/input/iris_2023.xls")
     json_df = spark.read.option("header", "true").json(
@@ -38,12 +40,22 @@ def loading_data(spark: SparkSession):
 
 
 def registering_dataframes_as_tables(list_input: list[DataFrame]):
+    """
+
+    :param list_input:
+    :return:
+    """
     list_input[0].createTempView("csv_view")
     list_input[1].createTempView("json_view")
     list_input[2].createTempView("parquet_view")
 
 
 def running_sql_queries(spark: SparkSession):
+    """
+
+    :param spark:
+    :return:
+    """
     csv_df = spark.sql("select * from csv_view")
     json_df = spark.sql("select * from json_view")
     parquet_df = spark.sql("select * from parquet_view")
@@ -54,6 +66,11 @@ def running_sql_queries(spark: SparkSession):
 
 
 def aggregations(list_input: list[DataFrame]):
+    """
+
+    :param list_input:
+    :return:
+    """
     parquet_df = list_input[2]
     agg_df = parquet_df.groupby(col("species")).agg(
         {
@@ -66,11 +83,21 @@ def aggregations(list_input: list[DataFrame]):
 
 
 def filtering_and_sorting(list_input: list[DataFrame]):
+    """
+
+    :param list_input:
+    :return:
+    """
     parquet_df = list_input[2]
     filtered_df = parquet_df.filter(col("species") == lit("setosa"))
 
 
 def joining_data(list_input: list[DataFrame]):
+    """
+
+    :param list_input:
+    :return:
+    """
     joining_one_df = list_input[0]
     joining_two_df = list_input[2]
 
@@ -87,12 +114,23 @@ def joining_data(list_input: list[DataFrame]):
 
 
 def writing_data(list_input: list[DataFrame]):
+    """
+
+    :param list_input:
+    :return:
+    """
     writing_df = list_input[2]
     writing_df.write.mode("overwrite").parquet("course/data/output/write_exercise/")
 
 
 def caching_data(list_input: list[DataFrame]):
-    pass
+    """
+
+    :param list_input:
+    :return:
+    """
+    caching_df = list_input[2]
+    caching_df.cache()
 
 
 loading_data_list = loading_data(spark)
