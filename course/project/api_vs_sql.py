@@ -33,9 +33,6 @@ Basic sql operations
     - Aggregations
     - Filtering and Sorting
     - Joining Data
-    - Writing Data
-    - Caching Data
-    - Stopping SparkSession
 """
 
 
@@ -65,12 +62,17 @@ def running_sql_queries(spark: SparkSession):
     parquet_df.show()
 
 
-def aggregations(list_input: list[DataFrame]):
+def aggregations(spark: DataFrame, list_input: list[DataFrame]):
     """
 
     :param list_input:
     :return:
     """
+    # Spark SQL
+    agg_df = spark.sql("SELECT count(*), species FROM csv_view GROUP BY species")
+    agg_df.show()
+
+    # Dataframe API
     parquet_df = list_input[2]
     agg_df = parquet_df.groupby(col("species")).agg(
         {
@@ -82,22 +84,42 @@ def aggregations(list_input: list[DataFrame]):
     )
 
 
-def filtering_and_sorting(list_input: list[DataFrame]):
+def filtering_and_sorting(spark: DataFrame, list_input: list[DataFrame]):
     """
 
     :param list_input:
     :return:
     """
+    # Spark SQL
+    filtered_df = spark.sql("SELECT * FROM csv_view WHERE species != 'setosa'")
+    filtered_df.show()
+
+    sorting_df = spark.sql(
+        "SELECT * FROM csv_view WHERE species != 'setosa' ORDER BY id"
+    )
+    sorting_df.show()
+
+    # Dataframe API
     parquet_df = list_input[2]
     filtered_df = parquet_df.filter(col("species") == lit("setosa"))
 
 
-def joining_data(list_input: list[DataFrame]):
+def joining_data(spark: DataFrame, list_input: list[DataFrame]):
     """
 
     :param list_input:
     :return:
     """
+    # Spark SQL
+    joining_df = spark.sql(
+        "SELECT * FROM csv_view "
+        "JOIN parquet_view ON csv_view.id = parquet_view.id "
+        "WHERE parquet_view.species != 'setosa' ORDER BY csv_view.id"
+    )
+
+    joining_df.show()
+
+    # Dataframe API
     joining_one_df = list_input[0]
     joining_two_df = list_input[2]
 
@@ -113,31 +135,9 @@ def joining_data(list_input: list[DataFrame]):
     )
 
 
-def writing_data(list_input: list[DataFrame]):
-    """
-
-    :param list_input:
-    :return:
-    """
-    writing_df = list_input[2]
-    writing_df.write.mode("overwrite").parquet("course/data/output/write_exercise/")
-
-
-def caching_data(list_input: list[DataFrame]):
-    """
-
-    :param list_input:
-    :return:
-    """
-    caching_df = list_input[2]
-    caching_df.cache()
-
-
 loading_data_list = loading_data(spark)
 registering_dataframes_as_tables(loading_data_list)
 running_sql_queries(spark)
-aggregations(loading_data_list)
-filtering_and_sorting(loading_data_list)
-joining_data(loading_data_list)
-writing_data(loading_data_list)
-caching_data(loading_data_list)
+aggregations(spark, loading_data_list)
+filtering_and_sorting(spark, loading_data_list)
+joining_data(spark, loading_data_list)
