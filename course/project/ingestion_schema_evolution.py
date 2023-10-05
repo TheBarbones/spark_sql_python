@@ -1,6 +1,6 @@
 from pyspark.sql import DataFrame
 from pyspark.sql import SparkSession
-from course.config.sparkSession import spark 
+from course.config.sparkSession import spark
 
 
 def loading_data(spark: SparkSession):
@@ -21,3 +21,7 @@ def loading_data(spark: SparkSession):
     )
 
     return [csv_df, json_df, parquet_df]
+
+
+def working_with_schemas():
+    pass
