@@ -1,7 +1,6 @@
 from pyspark.sql import DataFrame
 from pyspark.sql import SparkSession, Row
 from pyspark.sql.functions import lit, col
-from course.config.sparkSession import spark
 
 
 """
@@ -25,8 +24,7 @@ Differences:
         - Dataframe API: Relies on the JVM
     - SQL-like syntax:
         - Spark SQL: Syntax with SQL-like, similar to SQL ANSI
-        - Dataframe API: Functional programming constructs
-        
+        - Dataframe API: Functional programming constructs   
 """
 
 
@@ -37,23 +35,23 @@ def create_dataframe(spark: SparkSession):
 
     food_df = spark.createDataFrame(
         [
-            foods(121, 240.00, "2023-08-10", "carrot", "23"),
-            foods(122, 140.00, "2023-08-11", "banana", "23"),
-            foods(123, 40.00, "2023-08-12", "cinnamon", "22"),
-            foods(124, 340.00, "2023-08-13", "potato", "21"),
-            foods(125, 45.00, "2023-08-13", "sugar", "22"),
-            foods(126, 200.00, "2023-08-14", "cucumber", "21"),
+            foods(121, 240.00, "2023-08-10", "carrot", 23),
+            foods(122, 140.00, "2023-08-11", "banana", 23),
+            foods(123, 40.00, "2023-08-12", "cinnamon", 22),
+            foods(124, 340.00, "2023-08-13", "potato", 21),
+            foods(125, 45.00, "2023-08-13", "sugar", 22),
+            foods(126, 200.00, "2023-08-14", "cucumber", 21),
         ]
     )
 
     service_df = spark.createDataFrame(
         [
-            services(321, 240.00, "2023-08-10", "3d printer", "21"),
-            services(322, 140.00, "2023-08-11", "cinema", "22"),
-            services(323, 40.00, "2023-08-12", "cinema", "23"),
-            services(324, 340.00, "2023-08-13", "swimming", "22"),
-            services(325, 45.00, "2023-08-13", "house cleaning", "21"),
-            services(326, 200.00, "2023-08-14", "delivery food", "21"),
+            services(321, 240.00, "2023-08-10", "3d printer", 21),
+            services(322, 140.00, "2023-08-11", "cinema", 22),
+            services(323, 40.00, "2023-08-12", "cinema", 23),
+            services(324, 340.00, "2023-08-13", "swimming", 22),
+            services(325, 45.00, "2023-08-13", "house cleaning", 21),
+            services(326, 200.00, "2023-08-14", "delivery food", 21),
         ]
     )
 
@@ -69,7 +67,7 @@ def create_dataframe(spark: SparkSession):
     return output_list
 
 
-def basic_operations(list_input: list[DataFrame]):
+def basic_operations(list_input: list[DataFrame], spark: SparkSession):
     """
     Basic sql operations
     - Registering Dataframes as tables
@@ -87,77 +85,62 @@ def basic_operations(list_input: list[DataFrame]):
     list_input[1].createTempView("services_view")
     list_input[2].createTempView("people_view")
 
+    food_df = list_input[0]
+    service_df = list_input[1]
+    people_df = list_input[2]
+
     ## Simple select
 
     # Spark SQL
     foods_df = spark.sql("select id, amount, date, description from foods_view")
 
     # Dataframe API
-    foods_df = list_input[0].select(
-        col("id"), col("amount"), col("date"), col("description")
-    )
+    foods_df = food_df.select(col("id"), col("amount"), col("date"), col("description"))
 
     ## Aggregations
 
     # Spark SQL
-    agg_df = spark.sql("SELECT sum(amount), date FROM temp_view GROUP BY date")
+    agg_df = spark.sql("SELECT sum(amount), date FROM foods_view GROUP BY date")
 
     # Dataframe API
-    agg_df = (
-        list_input[2]
-        .groupby(col("species"))
-        .agg(
-            {
-                "sepal_length": "max",
-                "sepal_width": "min",
-                "petal_length": "count",
-                "petal_width": "avg",
-            }
-        )
-    )
+    agg_df = food_df.groupby(col("date")).agg({"amount": "sum"})
 
     ## Filtering
 
     # Spark SQL
-    filtered_df = spark.sql("SELECT * FROM temp_view WHERE date >= '2023-08-13'")
+    filtered_df = spark.sql("SELECT * FROM foods_view WHERE date >= '2023-08-13'")
 
     # Dataframe API
-    filtered_df = list_input[2].filter(col("species") == lit("setosa"))
+    filtered_df = food_df.filter(col("date") == "2023-08-13")
 
     ## Sorting
 
     # Spark SQL
     sorting_df = spark.sql(
-        "SELECT * FROM temp_view WHERE date >= '2023-08-13' ORDER BY id"
+        "SELECT * FROM foods_view WHERE date >= '2023-08-13' ORDER BY id"
     )
 
     # Dataframe API
-    sorting_df = list_input[2].orderBy(col("date").desc)
+    sorting_df = food_df.orderBy("date")
 
     ## Joining operations
 
     # Spark SQL
     joining_df = spark.sql(
-        "SELECT * FROM temp_view "
-        "JOIN parquet_view ON csv_view.id = parquet_view.id "
-        "WHERE parquet_view.species != 'setosa' ORDER BY csv_view.id"
+        "SELECT * FROM foods_view "
+        "JOIN people_view ON foods_view.people_id = people_view.id "
+        "WHERE foods_view.date >= '2023-08-13' ORDER BY people_view.id"
     )
 
     # Dataframe API
-    joining_one_df = list_input[0]
-    joining_two_df = list_input[2]
 
-    joining_data_df = joining_one_df.alias("j1").join(
-        joining_two_df.alias("j2"), col("j1.id") == col("j2.id"), "inner"
+    joining_data_df = food_df.alias("j1").join(
+        people_df.alias("j2"), col("j1.people_id") == col("j2.id"), "inner"
     )
 
-    joining_data_df = joining_one_df.join(joining_two_df, ["id"], "inner")
-
-    condition = [col("j1.id") == col("j2.id")]
-    joining_data_df = joining_one_df.alias("j1").join(
-        joining_two_df.alias("j2"), condition, "left"
-    )
-
-
-df_list = create_dataframe(spark)
-basic_operations(df_list)
+    # joining_data_df = joining_one_df.join(joining_two_df, ["id"], "inner")
+    #
+    # condition = [col("j1.id") == col("j2.id")]
+    # joining_data_df = joining_one_df.alias("j1").join(
+    #     joining_two_df.alias("j2"), condition, "left"
+    # )
