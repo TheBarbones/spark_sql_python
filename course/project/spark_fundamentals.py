@@ -4,6 +4,14 @@ from pyspark.sql.functions import lit, col
 
 
 """
+Spark fundamentals & Setting up:
+--------------------------------
+    ✨ Overview and significance in big data processing
+    ✨ Setting up a work environment
+    ✨ Basic sql operations
+    ✨ DataFrame API vs. Spark SQL
+    
+    
 Spark SQL:
     - Work with structure (Csv, Parquet, etc) and semi-structured data (Json, Xml)
     - Support SQL-like sintax or SQL ANSI
@@ -67,7 +75,7 @@ def create_dataframe(spark: SparkSession):
     return output_list
 
 
-def basic_operations(list_input: list[DataFrame], spark: SparkSession):
+def spark_fundamentals(spark: SparkSession):
     """
     Basic sql operations
     - Registering Dataframes as tables
@@ -80,6 +88,9 @@ def basic_operations(list_input: list[DataFrame], spark: SparkSession):
     :param list_input: list of dataframes
     :return: None
     """
+
+    list_input = create_dataframe(spark)
+
     # registering dataframe as temporal tables
     list_input[0].createTempView("foods_view")
     list_input[1].createTempView("services_view")
