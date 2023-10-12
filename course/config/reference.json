@@ -1,0 +1,41 @@
+{
+  "fields": [
+    {
+      "metadata": {},
+      "name": "id",
+      "nullable": true,
+      "type": "string"
+    },
+    {
+      "metadata": {},
+      "name": "sepal_length",
+      "nullable": true,
+      "type": "string"
+    },
+    {
+      "metadata": {},
+      "name": "sepal_width",
+      "nullable": true,
+      "type": "string"
+    },
+    {
+      "metadata": {},
+      "name": "petal_length",
+      "nullable": true,
+      "type": "string"
+    },
+    {
+      "metadata": {},
+      "name": "petal_width",
+      "nullable": true,
+      "type": "string"
+    },
+    {
+      "metadata": {},
+      "name": "species",
+      "nullable": true,
+      "type": "string"
+    }
+  ],
+  "type": "struct"
+}

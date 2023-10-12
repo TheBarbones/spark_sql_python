@@ -1,5 +1,14 @@
 from pyspark.sql import DataFrame
 from pyspark.sql import SparkSession
+from pyspark.sql.types import (
+    StructType,
+    StructField,
+    StringType,
+    IntegerType,
+    FloatType,
+)
+import json
+
 
 """
 Data ingestion & Schema evolution
@@ -49,10 +58,17 @@ def loading_data(spark: SparkSession):
     # Reading CSV files
     csv_df = spark.read.csv(f"{parm_path}{parm_file}.xls")
 
-    options_csv_dict = {"header": True, "inferSchema": True}
+    # using json file to
 
-    csv_df = spark.read.options(options_csv_dict).csv(f"{parm_path}{parm_file}.xls")
+    with open("course/config/reference.json") as f:
+        schema = f.read()
+
+    js = json.loads(schema)
+    schemaFromJson = StructType.fromJson(js)
+
+    csv_df = spark.read.schema(schemaFromJson).csv(f"{parm_path}{parm_file}.xls")
     csv_df.printSchema()
+    csv_df.show()
 
     # Reading JSON files
     json_df = spark.read.option("header", "true").json(f"{parm_path}{parm_file}.json")
