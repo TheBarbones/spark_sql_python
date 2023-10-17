@@ -56,19 +56,8 @@ def loading_data(spark: SparkSession):
     parm_file = "iris_2023"
 
     # Reading CSV files
+    # Simple structure to read files
     csv_df = spark.read.csv(f"{parm_path}{parm_file}.xls")
-
-    # using json file to
-
-    with open("course/config/reference.json") as f:
-        schema = f.read()
-
-    js = json.loads(schema)
-    schemaFromJson = StructType.fromJson(js)
-
-    csv_df = spark.read.schema(schemaFromJson).csv(f"{parm_path}{parm_file}.xls")
-    csv_df.printSchema()
-    csv_df.show()
 
     # Reading JSON files
     json_df = spark.read.option("header", "true").json(f"{parm_path}{parm_file}.json")
@@ -77,6 +66,16 @@ def loading_data(spark: SparkSession):
     parquet_df = spark.read.option("header", "true").parquet(
         f"{parm_path}iris_2023.parquet"
     )
+
+    # using json file to
+    with open("course/config/reference.json") as f:
+        schema = f.read()
+    js = json.loads(schema)
+
+    schema_from_json = StructType.fromJson(js)
+    csv_df = spark.read.schema(schema_from_json).csv(f"{parm_path}{parm_file}.xls")
+    csv_df.printSchema()
+    csv_df.show()
 
     return [csv_df, json_df, parquet_df]
 

@@ -4,31 +4,31 @@
       "metadata": {},
       "name": "id",
       "nullable": true,
-      "type": "string"
+      "type": "float"
     },
     {
       "metadata": {},
       "name": "sepal_length",
       "nullable": true,
-      "type": "string"
+      "type": "float"
     },
     {
       "metadata": {},
       "name": "sepal_width",
       "nullable": true,
-      "type": "string"
+      "type": "float"
     },
     {
       "metadata": {},
       "name": "petal_length",
       "nullable": true,
-      "type": "string"
+      "type": "float"
     },
     {
       "metadata": {},
       "name": "petal_width",
       "nullable": true,
-      "type": "string"
+      "type": "float"
     },
     {
       "metadata": {},
