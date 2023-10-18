@@ -1,5 +1,5 @@
 from pyspark.sql import SparkSession
-from course.project import (
+from spark_sql_python.domain.energy.src import (
     spark_fundamentals,
     data_ingestion_schema_evolution,
     data_exploration_manipulation,
@@ -8,7 +8,7 @@ from course.project import (
     query_optimization,
 )
 
-__spark = SparkSession.builder.master("local").appName("testing").getOrCreate()
+__spark = SparkSession.builder.master("local").appName("spark_sql_python").getOrCreate()
 
 if __name__ == "__main__":
     spark_fundamentals(__spark)
