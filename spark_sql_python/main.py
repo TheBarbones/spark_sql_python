@@ -1,10 +1,6 @@
-from spark_sql_python.domain.energy.src import (
+from spark_sql_python.src import (
     spark_fundamentals,
     data_ingestion_schema_evolution,
-    data_exploration_manipulation,
-    external_data_sources,
-    best_practices,
-    query_optimization,
 )
 from spark_sql_python.config import generic_settings
 
