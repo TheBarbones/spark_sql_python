@@ -1,4 +1,5 @@
 from pyspark.sql import SparkSession
+import os
 
 
 class SparkSessionInitializer:
@@ -9,7 +10,7 @@ class SparkSessionInitializer:
 class GenericSettings:
     def __init__(self):
         self.spark = SparkSessionInitializer()
-        self.energy_data_path = "spark_sql_python/domain/energy/data/"
+        self.energy_data_path = os.environ["_DATA_PATH_"]
         self.raw_folder = "raw/"
         self.processed_folder = "processed/"
         self.schema_folder = "schemas/"

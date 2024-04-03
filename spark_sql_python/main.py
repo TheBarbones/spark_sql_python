@@ -9,7 +9,6 @@ def main():
     spark = generic_settings.spark.session
     spark_fundamentals(spark)
     data_ingestion_schema_evolution.schema_evolution(spark)
-
     # data_exploration_manipulation(spark)
     # query_optimization(spark)
     # external_data_sources(spark)
