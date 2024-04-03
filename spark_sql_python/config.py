@@ -18,6 +18,7 @@ class GenericSettings:
         self.csv_type = "csv"
         self.json_type = "json"
         self.parquet_type = "parquet"
+        self.process_step = os.environ["_COURSE_PART_"]
 
 
 generic_settings = GenericSettings()

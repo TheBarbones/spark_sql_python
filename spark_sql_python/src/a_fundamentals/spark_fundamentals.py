@@ -7,8 +7,9 @@ Spark fundamentals & Setting up:
 --------------------------------
     ✨ Overview and significance in big data processing
     ✨ Setting up a work environment
+    ✨ RDD, Datasets & Dataframes
     ✨ DataFrame API vs. Spark SQL
-    ✨ Basic sql operations
+
     
 Spark SQL:
     - Work with structure (Csv, Parquet, etc) and semi-structured data (Json, Xml)
@@ -34,19 +35,19 @@ Differences:
 """
 
 
-def create_dataframe(spark: SparkSession):
-    foods = Row("id", "amount", "date", "description", "people_id")
+def creating_dataset_dataframe(spark: SparkSession):
+    _dataframe = Row("id", "amount", "date", "description", "people_id")
     # services = Row("id", "amount", "date", "description", "people_id")
-    people = Row("id", "name", "birth")
+    _dataset = Row("id", "amount", "date", "description", "people_id")
 
     food_df = spark.createDataFrame(
         [
-            foods(121, 240.00, "2023-08-10", "carrot", 23),
-            foods(122, 140.00, "2023-08-11", "banana", 23),
-            foods(123, 40.00, "2023-08-12", "cinnamon", 22),
-            foods(124, 340.00, "2023-08-13", "potato", 21),
-            foods(125, 45.00, "2023-08-13", "sugar", 22),
-            foods(126, 200.00, "2023-08-14", "cucumber", 21),
+            _dataframe(121, 240.00, "2023-08-10", "carrot", 23),
+            _dataframe(122, 140.00, "2023-08-11", "banana", 23),
+            _dataframe(123, 40.00, "2023-08-12", "cinnamon", 22),
+            _dataframe(124, 340.00, "2023-08-13", "potato", 21),
+            _dataframe(125, 45.00, "2023-08-13", "sugar", 22),
+            _dataframe(126, 200.00, "2023-08-14", "cucumber", 21),
         ]
     )
 
@@ -61,13 +62,13 @@ def create_dataframe(spark: SparkSession):
     #     ]
     # )
 
-    people_df = spark.createDataFrame(
-        [
-            people(21, "mary", "1990-07-10"),
-            people(22, "kat", "2000-04-11"),
-            people(23, "bianca", "1989-08-12"),
-        ]
-    )
+    # people_df = spark.createDataFrame(
+    #     [
+    #         people(21, "mary", "1990-07-10"),
+    #         people(22, "kat", "2000-04-11"),
+    #         people(23, "bianca", "1989-08-12"),
+    #     ]
+    # )
 
     output_list = [food_df, people_df]
     return output_list
