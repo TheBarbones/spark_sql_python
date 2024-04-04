@@ -1,3 +1,3 @@
-from .a_fundamentals.spark_fundamentals import spark_fundamentals
+from .a_fundamentals.spark_fundamentals import SparkFundamentals
 from .b_ingestion.data_ingestion_schema_evolution import data_ingestion_schema_evolution
 from .c_exploration.data_exploration_manipulation import data_exploration_manipulation
