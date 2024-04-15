@@ -1,9 +1,6 @@
 from pyspark.sql import SparkSession, Row
 from pyspark.sql.functions import col
 
-# from spark_sql_python.config import SparkSession
-
-
 """
 Spark fundamentals & Setting up:
 --------------------------------
