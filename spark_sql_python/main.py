@@ -3,12 +3,12 @@ from spark_sql_python.src import (
     data_ingestion_schema_evolution,
     # data_exploration_manipulation,
 )
-from spark_sql_python.config import generic_settings, SessionInitializer
+from spark_sql_python.config import generic_settings, spark
 
 
 def main():
     if generic_settings.process_step == "a":
-        SparkFundamentals(SessionInitializer.pyspark)
+        SparkFundamentals(spark)
     elif generic_settings.process_step == "b":
         data_ingestion_schema_evolution.schema_evolution(spark)
     # elif generic_settings.process_step == "c":

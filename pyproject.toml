@@ -9,6 +9,8 @@ packages = [{include = "spark_sql_python"}]
 [tool.poetry.dependencies]
 python = "^3.10"
 pyspark = "^3.5.0"
+pydantic = "2.7.0"
+pydantic-settings = '2.2.1'
 
 
 [build-system]
