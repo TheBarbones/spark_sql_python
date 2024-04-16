@@ -11,7 +11,7 @@ python = "^3.10"
 pyspark = "^3.5.0"
 pydantic = "2.7.0"
 pydantic-settings = '2.2.1'
-
+pydantic-spark = '1.0.1'
 
 [build-system]
 requires = ["poetry-core"]

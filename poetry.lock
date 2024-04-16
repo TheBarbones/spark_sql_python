@@ -152,6 +152,23 @@ toml = ["tomli (>=2.0.1)"]
 yaml = ["pyyaml (>=6.0.1)"]
 
 [[package]]
+name = "pydantic-spark"
+version = "1.0.1"
+description = "Converting pydantic classes to spark schemas"
+optional = false
+python-versions = ">=3.8,<4.0"
+files = [
+    {file = "pydantic_spark-1.0.1-py3-none-any.whl", hash = "sha256:51900d2e273b1be232fc1e0fb7c2d259f179daa1edd25754e07e4f7653def32e"},
+    {file = "pydantic_spark-1.0.1.tar.gz", hash = "sha256:ddfa8ad977de941e240310b5c0a2aefbc33f92dd303f5a6d06e9bb4ba90959e8"},
+]
+
+[package.dependencies]
+pydantic = ">=2.5.2,<3.0.0"
+
+[package.extras]
+spark = ["pyspark (>=3.1.2,<3.3.0)"]
+
+[[package]]
 name = "pyspark"
 version = "3.5.1"
 description = "Apache Spark Python API"
@@ -199,4 +216,4 @@ files = [
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.10"
-content-hash = "da87070fc2ef4f724e394a87a6f7a3528598581af8b119baa83ee713d64fb73d"
+content-hash = "acd9ba3faff29322c28877b11a2aac35dba6cb6c387306a6fd65507cb0d9ebc8"
