@@ -81,5 +81,8 @@ class DataIngestionSchemaEvolution:
     #     DELTALAKE_SILVER_PATH
     # )
 
+    def simple_read(self, spark: SparkSession):
+        peopleDF.write.parquet("people.parquet")
+
 
 data_ingestion_schema_evolution = DataIngestionSchemaEvolution()
