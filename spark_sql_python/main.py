@@ -1,4 +1,4 @@
-from spark_sql_python.src import (
+from spark_sql_python.src.domain import (
     SparkFundamentals,
     data_ingestion_schema_evolution,
     # data_exploration_manipulation,
