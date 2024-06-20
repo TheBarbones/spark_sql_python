@@ -3,11 +3,13 @@ from spark_sql_python.config import generic_settings, spark
 
 
 def main():
+    spark_fundamentals = SparkFundamentals(spark)
+    schema_evolution = DataIngestionSchemaEvolution(spark)
     match generic_settings.PROCESS_STEP:
         case generic_settings.fundamentals:
-            SparkFundamentals.dataframe_api_spark_sql(spark)
+            spark_fundamentals.dataframe_api_spark_sql()
         case generic_settings.ingestion:
-            DataIngestionSchemaEvolution.schema_evolution(spark)
+            schema_evolution.schema_evolution()
         case generic_settings.exploration:
             print("exploration")
         case generic_settings.optimization:

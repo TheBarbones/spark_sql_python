@@ -82,8 +82,5 @@ class DataIngestionSchemaEvolution:
     #     DELTALAKE_SILVER_PATH
     # )
 
-    def simple_read(self):
-        peopleDF.write.parquet("people.parquet")
-
-
-data_ingestion_schema_evolution = DataIngestionSchemaEvolution()
+    # def simple_read(self):
+    #     peopleDF.write.parquet("people.parquet")

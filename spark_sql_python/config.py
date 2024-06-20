@@ -3,13 +3,13 @@ from pydantic_settings import BaseSettings
 from pathlib import Path
 
 
-class SessionInitializer1(SparkSession):
+class SessionInitializer(SparkSession):
     def __init__(self, app_name="SparkCourse"):
         self.session = SparkSession.builder.appName(app_name).getOrCreate()
         super().__init__(self.session.sparkContext)
 
 
-spark = SessionInitializer1()
+spark = SessionInitializer()
 
 
 class GenericSettings(BaseSettings):
