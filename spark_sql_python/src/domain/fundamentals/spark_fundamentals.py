@@ -1,6 +1,6 @@
 from pyspark.sql import SparkSession, Row
 from pyspark.sql.functions import col
-from spark_sql_python.src.application.domain import People
+from spark_sql_python.common import empty_dataframe
 
 """
 Spark fundamentals & Setting up:
@@ -40,11 +40,12 @@ Differences:
 class SparkFundamentals:
     def __init__(self, spark: SparkSession):
         self.session = spark
+        self.basic_object = empty_dataframe
 
-    def dataframe_api_spark_sql(self):
+    def create_basic_object(self):
         _dataframe = Row("id", "amount", "date", "description", "people_id")
 
-        food_df = self.session.createDataFrame(
+        return self.session.createDataFrame(
             [
                 _dataframe(121, 240.00, "2023-08-10", "carrot", 23),
                 _dataframe(122, 140.00, "2023-08-11", "banana", 23),
@@ -55,14 +56,19 @@ class SparkFundamentals:
             ]
         )
 
+    def dataframe_api_spark_sql(self):
+        food_df = self.create_basic_object()
         # Spark SQL
+        # 1. create the temporal view from the dataframe
         food_df.createTempView("foods_view")
 
+        # 2. execute the sql sentence
         spark_sql = self.session.sql(
             "select id, amount, date, description from foods_view"
         )
 
         # Dataframe API
+        # 1. select the columns from the dataframe
         dataframe_api = food_df.select(
             col("id"), col("amount"), col("date"), col("description")
         )

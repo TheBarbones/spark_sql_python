@@ -46,10 +46,11 @@ Schema Enforcement:
 
 
 class DataIngestionSchemaEvolution:
-    def __init__(self):
+    def __init__(self, spark: SparkSession):
+        self.session = spark
         self.biofuel_production = empty_dataframe
 
-    def loading_data(self, spark: SparkSession):
+    def loading_data(self):
         """
 
         :param spark:
@@ -58,7 +59,7 @@ class DataIngestionSchemaEvolution:
 
         schema = get_schema_file(file_name=generic_settings.biofuel_production_file)
         self.biofuel_production = read_file_with_schema(
-            spark=spark,
+            spark=self.session,
             file_name=generic_settings.biofuel_production_file,
             file_type=generic_settings.csv_type,
             schema_file=schema,
@@ -68,8 +69,8 @@ class DataIngestionSchemaEvolution:
 
         return self.biofuel_production
 
-    def schema_evolution(self, spark: SparkSession):
-        list_input = self.loading_data(spark)
+    def schema_evolution(self):
+        list_input = self.loading_data()
 
         # Add the mergeSchema option
 
@@ -81,7 +82,7 @@ class DataIngestionSchemaEvolution:
     #     DELTALAKE_SILVER_PATH
     # )
 
-    def simple_read(self, spark: SparkSession):
+    def simple_read(self):
         peopleDF.write.parquet("people.parquet")
 
 

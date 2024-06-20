@@ -1,8 +1,4 @@
-from spark_sql_python.src.domain import (
-    SparkFundamentals,
-    data_ingestion_schema_evolution,
-    # data_exploration_manipulation,
-)
+from spark_sql_python.src.domain import SparkFundamentals, DataIngestionSchemaEvolution
 from spark_sql_python.config import generic_settings, spark
 
 
@@ -11,7 +7,7 @@ def main():
         case generic_settings.fundamentals:
             SparkFundamentals.dataframe_api_spark_sql(spark)
         case generic_settings.ingestion:
-            data_ingestion_schema_evolution.schema_evolution(spark)
+            DataIngestionSchemaEvolution.schema_evolution(spark)
         case generic_settings.exploration:
             print("exploration")
         case generic_settings.optimization:
