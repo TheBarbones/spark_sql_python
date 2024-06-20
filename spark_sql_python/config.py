@@ -24,5 +24,11 @@ class GenericSettings(BaseSettings):
     json_type: str = "json"
     parquet_type: str = "parquet"
 
+    fundamentals: str = "fundamentals"
+    ingestion: str = "ingestion"
+    exploration: str = "exploration"
+    optimization: str = "optimization"
+    external: str = "external"
+
 
 generic_settings = GenericSettings()

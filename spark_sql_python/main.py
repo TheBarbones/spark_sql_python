@@ -7,17 +7,17 @@ from spark_sql_python.config import generic_settings, spark
 
 
 def main():
-    if generic_settings.PROCESS_STEP == "a":
-        SparkFundamentals.dataframe_api_spark_sql(spark)
-    elif generic_settings.PROCESS_STEP == "b":
-        data_ingestion_schema_evolution.schema_evolution(spark)
-    # elif generic_settings.process_step == "c":
-    #     data_exploration_manipulation(spark)
-    else:
-        pass
-    # query_optimization(spark)
-    # external_data_sources(spark)
-    # best_practices(spark)
+    match generic_settings.PROCESS_STEP:
+        case generic_settings.fundamentals:
+            SparkFundamentals.dataframe_api_spark_sql(spark)
+        case generic_settings.ingestion:
+            data_ingestion_schema_evolution.schema_evolution(spark)
+        case generic_settings.exploration:
+            print("exploration")
+        case generic_settings.optimization:
+            print("optimization")
+        case generic_settings.external:
+            print("extener")
 
 
 if __name__ == "__main__":
